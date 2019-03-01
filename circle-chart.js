@@ -42,8 +42,8 @@ for (let i = 0; i < 100; i++) {
   if (i === 90) {
     circle.x = width / 2;
     circle.y = height / 2;
-    circle.distance = 0;
-    circle.velocity = 0;
+    circle.distance = 4;
+    circle.velocity = 0.02;
     circle.r = 20;
   }
 
@@ -77,7 +77,7 @@ let selector = svg
     .style("stroke", 'white')
     .style("fill-opacity", 0);
 
-const randCircle = circlesData[Math.floor(Math.random() * 99) + 0]
+// const randCircle = circlesData[Math.floor(Math.random() * 99) + 0]
 
 d3.interval(update, 10);
 
@@ -98,10 +98,12 @@ function update() {
     return d.r; 
   });
 
-  selector
-  .attr("cx", randCircle.x)
-  .attr("cy", randCircle.y)
-  .attr("r", randCircle.r + 10);
+  if (randCircle) {
+    selector
+    .attr("cx", randCircle.x)
+    .attr("cy", randCircle.y)
+    .attr("r", randCircle.r + 10);
+  }
 }
 
 function distance(params) {
