@@ -1,0 +1,19 @@
+{
+  "name": "spotify-top-100",
+  "version": "1.0.0",
+  "description": "",
+  "main": "circle-chart.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/S1mpler/spotify-top-100.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/S1mpler/spotify-top-100/issues"
+  },
+  "homepage": "https://github.com/S1mpler/spotify-top-100#readme"
+}

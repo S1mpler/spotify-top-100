@@ -7,16 +7,44 @@
   <title>Document</title>
 </head>
 <body>
-  <div class="chart"></div>
-
-
-
+  <div class="container">
+    <!-- chart -->
+    <div class="chart"></div>
+    <!-- info containers -->
+    <div class="text" id="song-name"></div>
+    <div class="text" id="song-data"></div>
+    <!-- button -->
+    <div id="control-panel">
+        <button id="pulse-btn" class="btn">PULSE</button>
+        <button id="pick-btn" class="btn">BLIND PICK</button>
+    </div>
+  </div>  
+  
   <style>
+
+    @font-face {
+        font-family: 'AvenirNextLTW01BoldRegular'; /*a name to be used later*/
+        src: url('./fonts/AvenirNextLTW01BoldRegular.ttf'); /*URL to font*/
+    }
+
+    @font-face {
+        font-family: 'AvenirNextLTW01RegularRegular'; /*a name to be used later*/
+        src: url('./fonts/AvenirNextLTW01RegularRegular.ttf'); /*URL to font*/
+    }
+
     body {
+      padding: 0;
+      margin: 0;
+      background: #121212;
+    }
+
+    .container {
       position: relative;
       width: 100vw;
       height: 100vh;
-      background: #121212;
+      cursor: url('./circle.png'), auto;
+      font-family: 'AvenirNextLTW01BoldRegular';
+      color: white;
     }
 
     .chart {
@@ -24,9 +52,71 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%); 
+      width: 600px;
+      height: 600px;
     }
+
+    .btn {
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      outline: none;
+      border: none;
+      transition-duration: .1s;
+      background: rgba(0,0,0,0);
+    }
+
+    #pick-btn {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1DB954;
+    }
+
+    #pick-btn:hover {
+      background: #1DB954;
+      transform: translateX(-50%) scale(1.1) ;
+    }
+
+    #pick-btn:active {
+      background: #50C97B;
+    }
+
+    #pulse-btn {
+      position: absolute;
+      bottom: 50px;
+      left: 40%;
+      transform: translateX(-50%);
+      border: 1px solid white;
+    }
+
+    #pulse-btn:hover {
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .text {
+      font-family: 'AvenirNextLTW01RegularRegular';
+      color: white;
+    }
+
+    #song-name {
+      position: absolute;
+      right: 200px;
+      bottom: calc(50% + 20px);
+      /* text-align: right; */
+    }
+
+    #song-data {
+      position: absolute;
+      right: 200px;
+      top: calc(50%);
+      text-align: right;
+    }
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.1/d3.min.js"></script>
+  <script src="./data/top2018.js"></script>
   <script src="./circle-chart.js"></script>
 </body>
 </html>
