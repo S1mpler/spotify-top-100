@@ -13,6 +13,8 @@ let offset = 200;
 const minDistance = 110;
 const circlesData = [];
 
+let pulseDone = false;
+
 console.log(songs.length);
 
 
@@ -27,6 +29,7 @@ for (let i = 0; i < songs.length; i++) {
     y: ((height) / 2) + r * Math.sin(a),
     r: cRadius / 1.5,
     distance: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
+    oldDist: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     radians: Math.random() * Math.PI * 2,
     velocity: (Math.random() * 0.014) + 0.01,
     data: songs[i]
@@ -37,7 +40,7 @@ for (let i = 0; i < songs.length; i++) {
 
 
 let randCircle = circlesData[Math.floor(Math.random() * 99) + 0]
-randCircle.oldDist = randCircle.distance;
+// randCircle.oldDist = randCircle.distance;
 
 
 // D3
@@ -86,7 +89,24 @@ function update() {
     .attr("cx", function (d) {
 
       //go to center
-      if (d.id === randCircle.id && d.distance > 4) d.distance -= d.distance / 100;
+      if (d.id === randCircle.id && d.distance >= 4) d.distance -= d.distance / 100;
+
+      if (d.distance >= 300) pulseDone = true;
+
+      if (d.id !== randCircle.id) {
+
+        if (d.id === '3ee8Jmje8o58CHK66QrVC') {
+          console.log('distance', d.distance);
+          console.log('old dist', d.oldDist);
+          console.log('pulseDone', pulseDone);
+        }
+        
+        if (pulseDone && d.distance > d.oldDist) {
+          d.distance -= d.distance / 100
+        } else {
+          d.distance += d.distance / 100
+        }
+      }
 
       // go from center
       if (d.id !== randCircle.id && d.distance < d.oldDist) d.distance += (d.oldDist - d.distance) / 100;
@@ -98,7 +118,15 @@ function update() {
     .attr("cy", function (d) {
 
       //go to center
-      if (d.id === randCircle.id && d.distance > 4) d.distance -= d.distance / 100;
+      if (d.id === randCircle.id && d.distance >= 4) d.distance -= d.distance / 100;
+
+      if (d.id !== randCircle.id) {
+        if (pulseDone && d.distance > d.oldDist) {
+          d.distance -= d.distance / 100
+        } else {
+          d.distance += d.distance / 100
+        }
+      }
 
       //go from center
       if (d.id !== randCircle.id && d.distance < d.oldDist) d.distance += (d.oldDist - d.distance) / 100;
@@ -154,28 +182,13 @@ function pulseCircles() {
 
 function pickRandomCircle() {
   randCircle = circlesData[Math.floor(Math.random() * 99) + 0];
-  randCircle.oldDist = randCircle.distance;
+  // randCircle.oldDist = randCircle.distance;
+  pulseDone = false;
   dispaySongData(getSongData(randCircle));
 }
 
 function dispaySongData(data) {
   songNameDiv.innerText = `${data.artists} - ${data.name}`;
-  // "id": "6DCZcSspjsKoFjzjrWoCd",
-  // "name": "God's Plan",
-  // "artists": "Drake",
-  // "danceability": 0.754,
-  // "energy": 0.449,
-  // "key": 7,
-  // "loudness": -9.211,
-  // "mode": 1,
-  // "speechiness": 0.109,
-  // "acousticness": 0.0332,
-  // "instrumentalness": 0.0000829,
-  // "liveness": 0.552,
-  // "valence": 0.357,
-  // "tempo": 77.169,
-  // "duration_ms": 198973,
-  // "time_signature": 4
   songDataDiv.innerText = `
     danceability\t\t-\t${data.danceability}\n
     loudness\t-\t${data.loudness}\n
