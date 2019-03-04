@@ -11,10 +11,11 @@ let height = 600 - margin.top - margin.bottom;
 let offset = 200;
 
 const minDistance = 110;
-const circlesData = [];
 const pulseDistanceLimit = 280;
 
+let circlesData = [];
 let pulseDone = false;
+let selectedCircleIndex = 0;
 
 console.log(songs.length);
 
@@ -39,13 +40,12 @@ for (let i = 0; i < songs.length; i++) {
   circlesData.push(circle);
 }
 
+// shuffle data
+circlesData = shuffle(circlesData);
 
-let randCircle = circlesData[Math.floor(Math.random() * 99) + 0]
-// randCircle.oldDist = randCircle.distance;
-
+let randCircle = circlesData[selectedCircleIndex]
 
 // D3
-
 let svg = d3.select('.chart')
   .append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -100,8 +100,9 @@ function update() {
         }
       }
       // go from center
-      // if (d.id !== randCircle.id && d.distance < d.oldDist) d.distance += (d.oldDist - d.distance) / 25;
       d.radians += d.velocity * 2;
+
+      if (d.radians > 360) d.radians -= 360;
     })
     .attr("cx", function (d) {
       d.x = width / 2 + Math.cos(d.radians) * d.distance;
@@ -157,8 +158,7 @@ function pulseCircles() {
 }
 
 function pickRandomCircle() {
-  randCircle = circlesData[Math.floor(Math.random() * 99) + 0];
-  // randCircle.oldDist = randCircle.distance;
+  randCircle = circlesData[++selectedCircleIndex];
   pulseDone = false;
   dispaySongData(getSongData(randCircle));
 }
@@ -182,4 +182,12 @@ function dispaySongData(data) {
 
 function getSongData(circle) {
   return circle.data;
+}
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
