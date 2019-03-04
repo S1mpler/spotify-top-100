@@ -12,6 +12,7 @@ let offset = 200;
 
 const minDistance = 110;
 const circlesData = [];
+const pulseDistanceLimit = 280;
 
 let pulseDone = false;
 
@@ -86,52 +87,27 @@ d3.interval(update, 10);
 
 function update() {
   circleAttributes
-    .attr("cx", function (d) {
-
-      //go to center
-      if (d.id === randCircle.id && d.distance >= 4) d.distance -= d.distance / 100;
-
-      if (d.distance >= 300) pulseDone = true;
-
+    .each(function(d) {
+      // go to center
+      if (d.id === randCircle.id && d.distance >= 10) d.distance -= d.distance / 50;
+      // pulse
+      if (d.distance >= pulseDistanceLimit) pulseDone = true;
       if (d.id !== randCircle.id) {
-
-        if (d.id === '3ee8Jmje8o58CHK66QrVC') {
-          console.log('distance', d.distance);
-          console.log('old dist', d.oldDist);
-          console.log('pulseDone', pulseDone);
-        }
-        
-        if (pulseDone && d.distance > d.oldDist) {
-          d.distance -= d.distance / 100
+        if (pulseDone && d.distance !== d.oldDist) {
+          d.distance -= (d.distance - d.oldDist) / 25
         } else {
-          d.distance += d.distance / 100
+          d.distance += d.distance / 25
         }
       }
-
       // go from center
-      if (d.id !== randCircle.id && d.distance < d.oldDist) d.distance += (d.oldDist - d.distance) / 100;
-
-      d.radians += d.velocity;
+      // if (d.id !== randCircle.id && d.distance < d.oldDist) d.distance += (d.oldDist - d.distance) / 25;
+      d.radians += d.velocity * 2;
+    })
+    .attr("cx", function (d) {
       d.x = width / 2 + Math.cos(d.radians) * d.distance;
       return d.x;
     })
     .attr("cy", function (d) {
-
-      //go to center
-      if (d.id === randCircle.id && d.distance >= 4) d.distance -= d.distance / 100;
-
-      if (d.id !== randCircle.id) {
-        if (pulseDone && d.distance > d.oldDist) {
-          d.distance -= d.distance / 100
-        } else {
-          d.distance += d.distance / 100
-        }
-      }
-
-      //go from center
-      if (d.id !== randCircle.id && d.distance < d.oldDist) d.distance += (d.oldDist - d.distance) / 100;
-
-      d.radians += d.velocity;
       d.y = height / 2 + Math.sin(d.radians) * d.distance;
       return d.y;
     });
@@ -193,15 +169,15 @@ function dispaySongData(data) {
     danceability\t\t-\t${data.danceability}\n
     loudness\t-\t${data.loudness}\n
     valence\t-\t${data.valence}\n
-    -\n
-    energy\t\t-\t${data.energy}\n
-    speechiness\t-\t${data.speechiness}\n
-    acousticness\t-\t${data.acousticness}\n
-    instrumentalness\t-\t${data.instrumentalness}\n
-    liveness\t-\t${data.liveness}\n
-    tempo\t-\t${data.tempo}\n
-    duration\t-\t${data.duration_ms / (1000 * 60)}\n
   `;
+  // -\n
+  // energy\t\t-\t${data.energy}\n
+  // speechiness\t-\t${data.speechiness}\n
+  // acousticness\t-\t${data.acousticness}\n
+  // instrumentalness\t-\t${data.instrumentalness}\n
+  // liveness\t-\t${data.liveness}\n
+  // tempo\t-\t${data.tempo}\n
+  // duration\t-\t${data.duration_ms / (1000 * 60)}\n
 }
 
 function getSongData(circle) {
