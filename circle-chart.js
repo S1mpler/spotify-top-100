@@ -12,18 +12,28 @@ let offset = 200;
 
 const minDistance = 110;
 const pulseDistanceLimit = 280;
+const pulseExpandFactor = 20;
+const pulseCollapsFactor = 50;
+
 
 let circlesData = [];
 let pulseDone = false;
 let selectedCircleIndex = 0;
 
-console.log(songs.length);
+const pickBtn = document.getElementById('pick-btn');
+const pulseBtn = document.getElementById('pulse-btn');
+const songNameDiv = document.getElementById('song-name');
+const songDataDiv = document.getElementById('song-data');
 
+let isPulsed = false;
+
+console.log(songs.length);
 
 for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
   let r = ((width-offset) / 2) * Math.sqrt(Math.random());
   let cRadius =(Math.random() * 10) + 5;
+  let staticVelocity = ((Math.random() * 0.014) + 0.016) * 2;
 
   const circle = {
     id: songs[i].id,
@@ -33,7 +43,8 @@ for (let i = 0; i < songs.length; i++) {
     distance: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     oldDist: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     radians: Math.random() * Math.PI * 2,
-    velocity: (Math.random() * 0.014) + 0.01,
+    velocity: staticVelocity,
+    staticVelocity,
     data: songs[i]
   }
 
@@ -42,8 +53,8 @@ for (let i = 0; i < songs.length; i++) {
 
 // shuffle data
 circlesData = shuffle(circlesData);
-
-let randCircle = circlesData[selectedCircleIndex]
+let randCircle;
+pickRandomCircle(selectedCircleIndex);
 
 // D3
 let svg = d3.select('.chart')
@@ -94,14 +105,19 @@ function update() {
       if (d.distance >= pulseDistanceLimit) pulseDone = true;
       if (d.id !== randCircle.id) {
         if (pulseDone && d.distance !== d.oldDist) {
-          d.distance -= (d.distance - d.oldDist) / 25
+          // moving back to the position
+          d.distance -= (d.distance - d.oldDist) / pulseCollapsFactor;
+          if (d.velocity < d.staticVelocity)
+            d.velocity += (d.staticVelocity - d.velocity)/50;
         } else {
-          d.distance += d.distance / 25
+          // moving from the center
+          d.distance += d.distance / pulseExpandFactor;
+          d.velocity = d.velocity / 1.4;
+          // d.r += 5;
         }
       }
       // go from center
-      d.radians += d.velocity * 2;
-
+      d.radians += d.velocity;
       if (d.radians > 360) d.radians -= 360;
     })
     .attr("cx", function (d) {
@@ -122,13 +138,6 @@ function update() {
     .attr("cy", randCircle.y)
     .attr("r", randCircle.r + 10);
 }
-
-const pickBtn = document.getElementById('pick-btn');
-const pulseBtn = document.getElementById('pulse-btn');
-const songNameDiv = document.getElementById('song-name');
-const songDataDiv = document.getElementById('song-data');
-
-let isPulsed = false;
 
 pickBtn.addEventListener('click', (e) => {
   pickRandomCircle();
@@ -158,7 +167,13 @@ function pulseCircles() {
 }
 
 function pickRandomCircle() {
-  randCircle = circlesData[++selectedCircleIndex];
+  if (selectedCircleIndex === circlesData.length - 1) {
+    selectedCircleIndex = 0;
+    circlesData = shuffle(circlesData);
+  } else {
+    selectedCircleIndex++;
+  }
+  randCircle = circlesData[selectedCircleIndex];
   pulseDone = false;
   dispaySongData(getSongData(randCircle));
 }
