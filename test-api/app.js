@@ -38,9 +38,12 @@ app.get('/top-100', (req, res) => {
     axios.post(url, qs.stringify(requestBody), config)
       .then(function (response) {
         console.log(response);
+        res.json({ok: true})
       })
       .catch(function (error) {
         console.log(error);
+        console.log({ok: false});
+        
       });
 });
 
