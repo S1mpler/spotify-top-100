@@ -12,7 +12,7 @@ const my_client_id = 'da24f3a0f42d46f38b5224c752e638bc';
 const my_client_secret = '169fc2052c2b45f589a7f4597ae94290';
 
 app.get('/login', (req, res) => {
-    const scopes = 'user-read-private user-read-email';
+    const scopes = 'streaming user-read-birthdate user-read-email user-read-private user-read-email';
     res.redirect('https://accounts.spotify.com/authorize' +
         '?response_type=code' +
         '&client_id=' + my_client_id +
@@ -39,6 +39,8 @@ app.get('/top-100', (req, res) => {
       .then(function (response) {
         console.log(response);
         res.json({ok: true})
+    
+    
       })
       .catch(function (error) {
         console.log(error);
@@ -46,10 +48,6 @@ app.get('/top-100', (req, res) => {
         
       });
 });
-
-app.get('/songs', (req, res) => {
-    res.json({query: req.query, body: req.body})
-})
 
 app.listen(PORT, () => {
     console.log(PORT, ': listening');
