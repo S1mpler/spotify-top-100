@@ -4,6 +4,10 @@ const songNameDiv = document.getElementById('song-name');
 const songDataDiv = document.getElementById('song-data');
 
 
+///////////////////////////////////////////////////
+//  Methods
+///////////////////////////////////////////////////
+
 const getSongData = (circle) => circle.data;
 
 const shuffle = (a) => {
@@ -14,6 +18,22 @@ const shuffle = (a) => {
   return a;
 }
 
+const pulseOut = (circle, pulseSpeed) => {
+  // moving from the center
+  circle.distance += pulseSpeed;
+  // slow down
+  circle.velocity = circle.velocity / 1.4;
+}
+
+const pulseIn = (circle, pulseSpeed) => {
+  // moving back to the position
+  circle.distance -= pulseSpeed;
+  // speed up
+  if (circle.velocity < circle.staticVelocity)
+    circle.velocity += (circle.staticVelocity - circle.velocity) / 50;
+}
+
+//TODO: remove
 const generatePropertyElement = (prop, score) => 
   `<div class="song-prop">
     ${prop}
@@ -40,7 +60,7 @@ let circlesData = [];
 let pulseDone = false;
 let selectedCircleIndex = 0;
 
-let isPulsed = false;
+let isSpreaded = false;
 
 for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
@@ -115,17 +135,20 @@ function update() {
       // pulse
       if (d.distance >= pulseDistanceLimit) pulseDone = true;
       if (d.id !== randCircle.id) {
-        if (pulseDone && d.distance !== d.oldDist) {
-          // moving back to the position
-          d.distance -= (d.distance - d.oldDist) / pulseCollapsFactor;
-          if (d.velocity < d.staticVelocity)
-            d.velocity += (d.staticVelocity - d.velocity)/50;
-        } else {
-          // moving from the center
-          d.distance += d.distance / pulseExpandFactor;
-          d.velocity = d.velocity / 1.4;
-          // d.r += 5;
-        }
+
+        if (isSpreaded && !pulseDone) {
+          d.velocity -= d.velocity / 90;
+          // pulseOut(d, d.distance / pulseExpandFactor)
+        } 
+        
+          if (pulseDone && d.distance !== d.oldDist) {
+            // moving back to the position
+            if (!isSpreaded) pulseIn(d, (d.distance - d.oldDist) / pulseCollapsFactor);
+          } else {
+            // moving from the center
+            pulseOut(d, d.distance / pulseExpandFactor)
+          }
+        
       }
       // go from center
       d.radians += d.velocity;
@@ -154,10 +177,9 @@ pickBtn.addEventListener('click', (e) => {
   pickRandomCircle();
 });
 
-// pulseBtn.addEventListener('click', (e) => {
-//   pulseCircles();
-//   isPulsed = !isPulsed;
-// })
+pulseBtn.addEventListener('click', (e) => {
+  toggleSpread();
+})
 
 
 document.body.onkeyup = function(e){
@@ -167,14 +189,17 @@ document.body.onkeyup = function(e){
   }
 }
 
-// TODO: work on it
-function pulseCircles() {
-  // circlesData.forEach(c => {
-  //   if (c.id === randCircle.id) return;
-
-  //   if (!isPulsed) c.distanceFactor = (c.distance - minDistance) * 2;
-  //   c.distance += isPulsed ? -c.distanceFactor : c.distanceFactor;
-  // })
+// TODO: spread to center as well 
+function toggleSpread() {
+  if (!isSpreaded) {
+    // go to spread
+    pulseDone = false;
+    songDataDiv.style.right = '0%';
+  } else {
+    // go to unspread
+    songDataDiv.style.right = '10%';
+  }
+  isSpreaded = !isSpreaded;
 }
 
 // TODO: should return a circle and not assign it, motherfucker
@@ -186,7 +211,7 @@ function pickRandomCircle() {
     selectedCircleIndex++;
   }
   randCircle = circlesData[selectedCircleIndex];
-  pulseDone = false;
+  if (!isSpreaded) pulseDone = false;
   dispaySongData(getSongData(randCircle));
 }
 
