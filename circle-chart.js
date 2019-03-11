@@ -2,6 +2,13 @@ const pickBtn = document.getElementById('pick-btn');
 const pulseBtn = document.getElementById('pulse-btn');
 const songNameDiv = document.getElementById('song-name');
 const songDataDiv = document.getElementById('song-data');
+const mainBg = document.getElementById('main-bg');
+
+mainBg.style.fontSize = window.outerWidth / 8.3 + 'px';
+
+// window.onresize = (e) => {
+//   mainBg.style.fontSize = window.outerWidth / 8.3 + 'px';
+// };
 
 
 ///////////////////////////////////////////////////
