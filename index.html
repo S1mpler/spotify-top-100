@@ -8,20 +8,46 @@
 </head>
 <body>
   <div class="container">
+    <div class="bg noselect">
+      <!-- Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span>
+      Spotify <span>Spotify</span> -->
+      
+      <span>Spotify the top</span> hundred <span>songs</span> <br><span>of</span>
+      two thousand eighteen
+      <!-- Spotify the top <span>hundred songs <br>of
+      two thousand</span> eighteen -->
+    </div>
+    <!-- <div class="bg2 noselect">
+      2018
+    </div> -->
     <!-- chart -->
     <div class="chart"></div>
     <!-- info containers -->
     <div class="text" id="song-name"></div>
     <div class="text" id="song-data"></div>
+    <!-- filters -->
+    <!-- <div class="filters">
+      <input type="range" class="filter">
+      <input type="range" class="filter">
+      <input type="range" class="filter">
+      <input type="range" class="filter">
+    </div> -->
     <!-- button -->
     <div id="control-panel">
-        <button id="pulse-btn" class="btn">PULSE</button>
-        <button id="pick-btn" class="btn">BLIND PICK</button>
+        <button id="pulse-btn" class="btn control-btn">PULSE</button>
+        <button id="pick-btn" class="btn control-btn">BLIND PICK</button>
     </div>
   </div>  
   
   <style>
-
     @font-face {
         font-family: 'AvenirNextLTW01BoldRegular'; /*a name to be used later*/
         src: url('./fonts/AvenirNextLTW01BoldRegular.ttf'); /*URL to font*/
@@ -45,7 +71,53 @@
       cursor: url('./circle.png'), auto;
       font-family: 'AvenirNextLTW01BoldRegular';
       color: white;
+      overflow: hidden;
     }
+
+    .bg {
+      /* display: none; */
+      position: absolute;
+      top: 0;
+      left: -30px;
+      right: 0;
+      bottom: 0;
+      font-size: 11rem;
+      font-family: 'AvenirNextLTW01BoldRegular';
+      opacity: 0.035;
+      /* transform: translate(-50%, -50%); */
+    }
+
+    .bg span {
+      -webkit-text-fill-color: #121212; /* Will override color (regardless of order) */
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: white;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      left:0;
+      width: 100%;
+      height: 200px;
+    }
+
+    header .main {
+      font-size: 96px;
+    }
+
+    header .univ {
+      font-size: 36px;
+      font-family: 'AvenirNextLTW01RegularRegular';
+      opacity: 0.2;
+    }
+
+    header .year {
+      font-size: 74px;
+      -webkit-text-fill-color: #121212; /* Will override color (regardless of order) */
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: white;
+    }
+
 
     .chart {
       position: absolute;
@@ -54,6 +126,37 @@
       transform: translate(-50%, -50%); 
       width: 600px;
       height: 600px;
+    }
+
+    .song-prop {
+      padding: 10px 26px;
+      margin: 10px 0;
+      text-align: left;
+      border: 1px solid #eee;
+      width: 100%;
+      border-radius: 30px;
+      background-size: 50% auto;
+      position: relative;
+      overflow: hidden;
+      font-family: 'AvenirNextLTW01RegularRegular';
+      opacity: .7;
+      font-size: 16px;
+    }
+
+    .song-prop .progress{ 
+      position: absolute;
+      left: 0;
+      top:0;
+      height: 100%;
+      /* width: 50%; */
+      background: white;
+      opacity: 0.08;
+      transition-duration: .2s;
+    }
+
+    .song-prop:hover {
+      border-color: white;
+      opacity: 1;
     }
 
     .btn {
@@ -66,17 +169,27 @@
       background: rgba(0,0,0,0);
     }
 
-    #pick-btn {
+    #control-panel {
       position: absolute;
       bottom: 50px;
       left: 50%;
       transform: translateX(-50%);
+      display: flex;
+      flex-direction: row;
+    }
+
+    .control-btn {
+      margin: 0 10px;
+    }
+
+    #pick-btn {
       background: #1DB954;
+      /* transform: translateX(-50%); */
     }
 
     #pick-btn:hover {
       background: #1DB954;
-      transform: translateX(-50%) scale(1.1) ;
+      transform: scale(1.1) ;
     }
 
     #pick-btn:active {
@@ -84,15 +197,12 @@
     }
 
     #pulse-btn {
-      position: absolute;
-      bottom: 50px;
-      left: 40%;
-      transform: translateX(-50%);
+      /* transform: translateX(-50%); */
       border: 1px solid white;
     }
 
     #pulse-btn:hover {
-      transform: translateX(-50%) scale(1.1);
+      transform: scale(1.1);
     }
 
     .text {
@@ -102,17 +212,170 @@
 
     #song-name {
       position: absolute;
-      right: 200px;
+      right: 20%;
       bottom: calc(50% + 20px);
       /* text-align: right; */
     }
 
     #song-data {
       position: absolute;
-      right: 200px;
+      right: 20%;
       top: calc(50%);
       text-align: right;
     }
+
+    .filters {
+      list-style: none;
+      width: 300px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .filter {
+      width: 100%;
+    }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    -moz-apperance: none;
+    border-radius: 20px;
+    height: 40px;
+    background-image: -webkit-gradient(linear,
+        left top, 
+        right top, 
+        color-stop(15%, #df7164),
+        color-stop(15%, #F5D0CC));
+    
+    background-image: -moz-linear-gradient(left center,
+        #DF7164 0%, #DF7164 15%,
+        #F5D0CC 15%, #F5D0CC 100%);
+  }
+
+/* input[type="range"]::-moz-range-track {
+    border: none;
+    background: none;
+    outline: none;
+} */
+
+input[type=range]:focus {
+    outline: none;
+    border: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background-color: #df7164;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+input[type=range]::-moz-range-thumb {
+    -moz-appearance: none !important;
+    background-color: #df7164;
+    border: none;
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+}
+
+    /* input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      margin: 10px 0;
+      background: argb(0,0,0,0);
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 40px;
+      cursor: pointer;
+      
+      border-radius: 20px;
+      border: 1px solid red;
+    }
+    
+    input[type=range]::-webkit-slider-thumb {
+      border-radius: 20px;
+      height: 38px;
+      width: 38px;
+      background: gray;
+      cursor: pointer;
+      -webkit-appearance: none;
+    } */
+    /* input[type=range]:focus::-webkit-slider-runnable-track {
+      background: red;
+    } */
+    /* input[type=range]::-moz-range-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      background: #3071a9;
+      border-radius: 1.3px;
+      border: 0.2px solid #010101;
+    } */
+    /* input[type=range]::-moz-range-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+    } */
+    /* input[type=range]::-ms-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    } */
+    /* input[type=range]::-ms-fill-lower {
+      background: #2a6495;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    } */
+    /* input[type=range]::-ms-fill-upper {
+      background: #3071a9;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    } */
+    /* input[type=range]::-ms-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+      height: 8.4px;
+    } */
+    /* input[type=range]:focus::-ms-fill-lower {
+      background: #3071a9;
+    }
+    input[type=range]:focus::-ms-fill-upper {
+      background: #367ebd;
+    } */
+
+    .noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.1/d3.min.js"></script>

@@ -1,3 +1,24 @@
+const pickBtn = document.getElementById('pick-btn');
+const pulseBtn = document.getElementById('pulse-btn');
+const songNameDiv = document.getElementById('song-name');
+const songDataDiv = document.getElementById('song-data');
+
+
+const getSongData = (circle) => circle.data;
+
+const shuffle = (a) => {
+  for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const generatePropertyElement = (prop, score) => 
+  `<div class="song-prop">
+    ${prop}
+    <div class="progress" style="width:${score * 100}%"></div>
+  </div>`;
 
 
 ///////////////////////////////////////////////////
@@ -15,19 +36,11 @@ const pulseDistanceLimit = 280;
 const pulseExpandFactor = 20;
 const pulseCollapsFactor = 50;
 
-
 let circlesData = [];
 let pulseDone = false;
 let selectedCircleIndex = 0;
 
-const pickBtn = document.getElementById('pick-btn');
-const pulseBtn = document.getElementById('pulse-btn');
-const songNameDiv = document.getElementById('song-name');
-const songDataDiv = document.getElementById('song-data');
-
 let isPulsed = false;
-
-console.log(songs.length);
 
 for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
@@ -86,8 +99,6 @@ let selector = svg
     
 let selectorLine = svg
   .append('line')
-    // .attr("x1", width/2 + 30 * Math.cos(315))
-    // .attr("y1", height/2 + 30 * Math.sin(315))
     .attr("x2", width)
     .attr("y2", height / 2)
     .style("stroke-width", 1)
@@ -143,10 +154,10 @@ pickBtn.addEventListener('click', (e) => {
   pickRandomCircle();
 });
 
-pulseBtn.addEventListener('click', (e) => {
-  pulseCircles();
-  isPulsed = !isPulsed;
-})
+// pulseBtn.addEventListener('click', (e) => {
+//   pulseCircles();
+//   isPulsed = !isPulsed;
+// })
 
 
 document.body.onkeyup = function(e){
@@ -166,6 +177,7 @@ function pulseCircles() {
   // })
 }
 
+// TODO: should return a circle and not assign it, motherfucker
 function pickRandomCircle() {
   if (selectedCircleIndex === circlesData.length - 1) {
     selectedCircleIndex = 0;
@@ -180,10 +192,11 @@ function pickRandomCircle() {
 
 function dispaySongData(data) {
   songNameDiv.innerText = `${data.artists} - ${data.name}`;
-  songDataDiv.innerText = `
-    danceability\t\t-\t${data.danceability}\n
-    loudness\t-\t${data.loudness}\n
-    valence\t-\t${data.valence}\n
+  songDataDiv.innerHTML = `
+    ${generatePropertyElement('danceability',data.danceability)}
+    ${generatePropertyElement('loudness',data.loudness)}
+    ${generatePropertyElement('valence',data.valence)}
+    ${generatePropertyElement('tempo',data.tempo)}
   `;
   // -\n
   // energy\t\t-\t${data.energy}\n
@@ -193,16 +206,4 @@ function dispaySongData(data) {
   // liveness\t-\t${data.liveness}\n
   // tempo\t-\t${data.tempo}\n
   // duration\t-\t${data.duration_ms / (1000 * 60)}\n
-}
-
-function getSongData(circle) {
-  return circle.data;
-}
-
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
 }
