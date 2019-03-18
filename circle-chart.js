@@ -61,7 +61,8 @@ const loudness = (circle) => {
 }
 
 const valence = (circle) => {
-  circle.color = randCircle.data.valence;
+  circle.color = colorScale(randCircle.data.valence)
+
 }
 
 const tempo = (circle) => {
@@ -89,6 +90,11 @@ let selectedCircleIndex = 0;
 
 let isSpreaded = false;
 
+const colorScale = d3.scaleLinear()
+  .domain([0,1])
+  .range([d3.rgb("#116f32"), d3.rgb('#77d598')])
+
+
 for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
   let r = ((width-offset) / 2) * Math.sqrt(Math.random());
@@ -101,7 +107,7 @@ for (let i = 0; i < songs.length; i++) {
     y: ((height) / 2) + r * Math.sin(a),
     r: cRadius / 1.5,
     color: '#1DB954',
-
+    opacity: 0.0,
     distance: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     oldDist: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     radians: Math.random() * Math.PI * 2,
