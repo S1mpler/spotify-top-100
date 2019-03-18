@@ -49,6 +49,26 @@ const generatePropertyElement = (prop, score) =>
 
 
 ///////////////////////////////////////////////////
+//  Behaviours
+///////////////////////////////////////////////////  
+
+const danceability = (circle) => {
+  //circle: x, y, r, data.danceability
+}
+
+const loudness = (circle) => {
+  
+}
+
+const valence = (circle) => {
+  
+}
+
+const tempo = (circle) => {
+  
+}
+
+///////////////////////////////////////////////////
 //  Main code
 ///////////////////////////////////////////////////
 
@@ -132,7 +152,7 @@ let selectorLine = svg
     .style("stroke", 'white');
 
 update();
-d3.interval(update, 10);
+d3.interval(update, 9);
 
 function update() {
   circleAttributes
@@ -202,9 +222,11 @@ function toggleSpread() {
     // go to spread
     pulseDone = false;
     songDataDiv.style.right = '0%';
+    songNameDiv.style.right = '0%'
   } else {
     // go to unspread
     songDataDiv.style.right = '10%';
+    songNameDiv.style.right = '20%';
   }
   isSpreaded = !isSpreaded;
 }
