@@ -61,8 +61,7 @@ const loudness = (circle) => {
 }
 
 const valence = (circle) => {
-  console.log('color', circle.color)
-  circle.color = '#0e5c2a';
+  circle.color = randCircle.data.valence;
 }
 
 const tempo = (circle) => {
@@ -101,12 +100,13 @@ for (let i = 0; i < songs.length; i++) {
     x: ((width) / 2) + r * Math.cos(a),
     y: ((height) / 2) + r * Math.sin(a),
     r: cRadius / 1.5,
+    color: '#1DB954',
+
     distance: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     oldDist: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     radians: Math.random() * Math.PI * 2,
     velocity: staticVelocity,
     staticVelocity,
-    color: '#1DB954',
     data: songs[i]
   }
 
@@ -158,7 +158,6 @@ d3.interval(update, 9);
 
 function update() {
   circleAttributes
-    .attr('fill', d => d.color)
     .each(function(d) {
       valence(d);
       // go to center
@@ -192,7 +191,8 @@ function update() {
     .attr("cy", function (d) {
       d.y = height / 2 + Math.sin(d.radians) * d.distance;
       return d.y;
-    });
+    })
+    .style('fill', d => d.color);
 
   selectorLine
     .attr("x1", randCircle.x + (randCircle.r + 10) * Math.cos(0))
