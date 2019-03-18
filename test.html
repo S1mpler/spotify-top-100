@@ -8,8 +8,9 @@
   <h2>Open your console log: <code>View > Developer > JavaScript Console</code></h2>
 
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
-  <script>window.onSpotifyWebPlaybackSDKReady = () => {
-    const token = 'BQBm98HtDnwjfwrZhkNZrkK10u1eurDDgxpQsU1dsSCfEP-hbMBspHMpH_pP0MdKwOw9d5pE21Ab2F12dBNgqyuekDWbmiwe7p9JO8SWLK6aMYjaXhjyYFLt69BLwItVWuTi9g83WlJoZaIHDboNLOnwJcLnr1vbBc93dc-U';
+  <script>
+    window.onSpotifyWebPlaybackSDKReady = () => {
+    const token = 'BQASLZdxLGmZ0frIu_q6fBi38KNxoFRasO8eIQpgqy0zyoX42ImjGOIV_yOAcZBTYMTY_-VaooRdahxkWbPyEIrW6zslqbyeZdix5CRZSzvSzp7b59CZYwgd99unm6dVHUhO5wLGaLEQWWeWtnedU0c-n6VzhVFlLJirQNkgyIKqJlqvmkipKsnM9UXuISU';
     const player = new Spotify.Player({
       name: 'Web Playback SDK Quick Start Player',
       getOAuthToken: cb => { cb(token); }
@@ -47,6 +48,8 @@
       }
       }) => {
       getOAuthToken(access_token => {
+        console.log(id)
+        console.log(player)
         fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
         method: 'PUT',
         body: JSON.stringify({ uris: [spotify_uri] }),
@@ -57,8 +60,8 @@
     });
   });
 };
-
-play({
+  
+  play({
   playerInstance: player,
   spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
 });

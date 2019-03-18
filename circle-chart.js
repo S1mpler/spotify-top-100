@@ -61,7 +61,8 @@ const loudness = (circle) => {
 }
 
 const valence = (circle) => {
-  
+  console.log('color', circle.color)
+  circle.color = '#0e5c2a';
 }
 
 const tempo = (circle) => {
@@ -105,6 +106,7 @@ for (let i = 0; i < songs.length; i++) {
     radians: Math.random() * Math.PI * 2,
     velocity: staticVelocity,
     staticVelocity,
+    color: '#1DB954',
     data: songs[i]
   }
 
@@ -133,7 +135,7 @@ let circleAttributes = circles
   .attr("cx", function (d) { return d.x; })
   .attr("cy", function (d) { return d.y; })
   .attr("r", function (d) { return d.r; })
-  .style("fill", '#1DB954');
+  .style("fill", function(d){return d.color});
 
 let selector = svg
   .append('circle')
@@ -156,7 +158,9 @@ d3.interval(update, 9);
 
 function update() {
   circleAttributes
+    .attr('fill', d => d.color)
     .each(function(d) {
+      valence(d);
       // go to center
       if (d.id === randCircle.id && d.distance >= 10) d.distance -= d.distance / 50;
       // pulse
