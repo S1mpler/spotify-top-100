@@ -54,10 +54,22 @@ const generatePropertyElement = (prop, score) =>
 
 const danceability = (circle) => {
   //circle: x, y, r, data.danceability
+ 
 }
 
 const loudness = (circle) => {
-  
+  if(circle.loudnessCounter == 0){
+    circle.r = circle.r * 1.3;
+    circle.loudnessCounter = circle.loudnessCounter + 1;
+  } else if(circle.loudnessCounter == 45){
+    circle.r = circle.oldRad;
+    circle.loudnessCounter += 1;
+  }else if(circle.loudnessCounter == 90){
+    circle.loudnessCounter = 0;
+    circle.r = circle.r * 1.3;
+  }else{
+    circle.loudnessCounter += 1;
+  }
 }
 
 const valence = (circle) => {
@@ -111,9 +123,11 @@ for (let i = 0; i < songs.length; i++) {
     distance: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     oldDist: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
     radians: Math.random() * Math.PI * 2,
+    oldRad: cRadius / 1.5,
     velocity: staticVelocity,
     staticVelocity,
-    data: songs[i]
+    data: songs[i],
+    loudnessCounter: 0
   }
 
   circlesData.push(circle);
@@ -160,12 +174,17 @@ let selectorLine = svg
     .style("stroke", 'white');
 
 update();
-d3.interval(update, 9);
 
+
+d3.interval(update, 9);
 function update() {
+  
   circleAttributes
     .each(function(d) {
       valence(d);
+     loudness(d);
+      
+
       // go to center
       if (d.id === randCircle.id && d.distance >= 10) d.distance -= d.distance / 50;
       // pulse
@@ -198,6 +217,7 @@ function update() {
       d.y = height / 2 + Math.sin(d.radians) * d.distance;
       return d.y;
     })
+    .attr('r', d => d.r)
     .style('fill', d => d.color);
 
   selectorLine
