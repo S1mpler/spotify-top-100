@@ -262,7 +262,7 @@ function toggleSpread() {
   } else {
     // go to unspread
     songDataDiv.style.right = '10%';
-    songNameDiv.style.right = '20%';
+    songNameDiv.style.right = '10%';
   }
   isSpreaded = !isSpreaded;
 }
