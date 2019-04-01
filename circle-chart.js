@@ -3,6 +3,9 @@ const pulseBtn = document.getElementById('pulse-btn');
 const songNameDiv = document.getElementById('song-name');
 const songDataDiv = document.getElementById('song-data');
 const mainBg = document.getElementById('main-bg');
+const backBtn = document.getElementById('back-btn');
+const tutorialPanel = document.getElementById('tutorial-panel');
+const tutorialBtn = document.getElementById('tutorial-btn');
 
 mainBg.style.fontSize = window.outerWidth / 8.3 + 'px';
 
@@ -58,7 +61,6 @@ const danceability = (circle) => {
 }
 
 const loudness = (circle) => {
-  
   if(circle.id !== randCircle.id){
   if(circle.loudnessCounter == 0){
     circle.r = circle.r * loudnessScale(randCircle.data.loudness);
@@ -81,7 +83,7 @@ const valence = (circle) => {
 }
 
 const tempo = (circle) => {
-  
+  circle.tempo = tempoScale(randCircle.data.tempo)
 }
 
 ///////////////////////////////////////////////////
@@ -89,13 +91,13 @@ const tempo = (circle) => {
 ///////////////////////////////////////////////////
 
 let margin = { top: 0, right: 0, bottom: 0, left: 0 };
-let width = 600 - margin.left - margin.right;
-let height = 600 - margin.top - margin.bottom;
+let width = 800 - margin.left - margin.right;
+let height = 800 - margin.top - margin.bottom;
 
 let offset = 200;
 
-const minDistance = 110;
-const pulseDistanceLimit = 280;
+const minDistance = 160;
+const pulseDistanceLimit = 380;
 const pulseExpandFactor = 20;
 const pulseCollapsFactor = 50;
 
@@ -110,7 +112,10 @@ const colorScale = d3.scaleLinear()
   .range([d3.rgb("#116f32"), d3.rgb('#77d598')])
 const loudnessScale = d3.scaleLinear()
   .domain([-11,0])
-  .range([1.01,1.4])
+  .range([1.01,1.4]);
+const tempoScale = d3.scaleLinear()
+  .domain([60, 200])
+  .range([1,0.01])
 
 for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
@@ -125,13 +130,14 @@ for (let i = 0; i < songs.length; i++) {
     r: cRadius / 1.5,
     color: '#1DB954',
     opacity: 0.0,
-    distance: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
-    oldDist: (Math.floor(Math.random() * (i * 0.5)) + minDistance),  
+    distance: (Math.floor(Math.random() * (i * 1.0)) + minDistance),  
+    oldDist: (Math.floor(Math.random() * (i * 1.0)) + minDistance),  
     radians: Math.random() * Math.PI * 2,
     oldRad: cRadius / 1.5,
     velocity: staticVelocity,
     staticVelocity,
     data: songs[i],
+    tempo:1,
     loudnessCounter: 0
   }
 
@@ -161,8 +167,10 @@ let circleAttributes = circles
   .attr("cy", function (d) { return d.y; })
   .attr("r", function (d) { return d.r; })
   .style("fill", function(d){return d.color})
-  .style("transition", 'r 0.5s, fill 1s ease-out');
-  
+  .style("transition", function(d){
+    console.log('r '+ d.tempo + 's , fill 1s ease-out')
+    return 'r '+ d.tempo + 's , fill 1s ease-out'});
+    
 
 let selector = svg
   .append('circle')
@@ -185,12 +193,12 @@ update();
 
 d3.interval(update, 9);
 function update() {
-  console.log(randCircle.data.loudness)
+
   circleAttributes
     .each(function(d) {
       valence(d);
-     loudness(d);
-      
+      loudness(d);
+      tempo(d);
 
       // go to center
       if (d.id === randCircle.id && d.distance >= 10) d.distance -= d.distance / 50;
@@ -245,7 +253,16 @@ pulseBtn.addEventListener('click', (e) => {
   toggleSpread();
 })
 
-
+backBtn.addEventListener('click', (e) => {
+  tutorialPanel.style.animation = '1s ease-out 0s 1 slideOutFromRight';
+  setTimeout(function(){
+    tutorialPanel.style.visibility = 'hidden'
+  }, 800);
+})
+tutorialBtn.addEventListener('click', (e) => {
+  tutorialPanel.style.visibility = 'visible'
+  tutorialPanel.style.animation = '1s ease-out 0s 1 slideInFromLeft';
+})
 document.body.onkeyup = function(e){
   if (e.keyCode == 32){
     e.preventDefault();
