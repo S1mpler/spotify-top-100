@@ -161,7 +161,8 @@ let circleAttributes = circles
   .attr("cy", function (d) { return d.y; })
   .attr("r", function (d) { return d.r; })
   .style("fill", function(d){return d.color})
-  .style("transition", 'r 0.5s');
+  .style("transition", 'r 0.5s, fill 1s ease-out');
+  
 
 let selector = svg
   .append('circle')
