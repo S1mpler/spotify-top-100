@@ -58,18 +58,21 @@ const danceability = (circle) => {
 }
 
 const loudness = (circle) => {
+  
+  if(circle.id !== randCircle.id){
   if(circle.loudnessCounter == 0){
-    circle.r = circle.r * 1.3;
+    circle.r = circle.r * loudnessScale(randCircle.data.loudness);
     circle.loudnessCounter = circle.loudnessCounter + 1;
   } else if(circle.loudnessCounter == 45){
     circle.r = circle.oldRad;
     circle.loudnessCounter += 1;
   }else if(circle.loudnessCounter == 90){
     circle.loudnessCounter = 0;
-    circle.r = circle.r * 1.3;
+    circle.r = circle.r * loudnessScale(randCircle.data.loudness);
   }else{
     circle.loudnessCounter += 1;
   }
+}
 }
 
 const valence = (circle) => {
@@ -105,7 +108,9 @@ let isSpreaded = false;
 const colorScale = d3.scaleLinear()
   .domain([0,1])
   .range([d3.rgb("#116f32"), d3.rgb('#77d598')])
-
+const loudnessScale = d3.scaleLinear()
+  .domain([-11,0])
+  .range([1.01,1.4])
 
 for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
@@ -155,7 +160,8 @@ let circleAttributes = circles
   .attr("cx", function (d) { return d.x; })
   .attr("cy", function (d) { return d.y; })
   .attr("r", function (d) { return d.r; })
-  .style("fill", function(d){return d.color});
+  .style("fill", function(d){return d.color})
+  .style("transition", 'r 0.5s');
 
 let selector = svg
   .append('circle')
@@ -178,7 +184,7 @@ update();
 
 d3.interval(update, 9);
 function update() {
-  
+  console.log(randCircle.data.loudness)
   circleAttributes
     .each(function(d) {
       valence(d);
