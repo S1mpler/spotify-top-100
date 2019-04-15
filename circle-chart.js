@@ -56,8 +56,8 @@ const generatePropertyElement = (prop, score) =>
 ///////////////////////////////////////////////////  
 
 const danceability = (circle) => {
-  //circle: x, y, r, data.danceability
- 
+
+
 }
 
 const loudness = (circle) => {
@@ -70,7 +70,6 @@ const loudness = (circle) => {
     circle.loudnessCounter += 1;
   }else if(circle.loudnessCounter == 90){
     circle.loudnessCounter = 0;
-    circle.r = circle.r * loudnessScale(randCircle.data.loudness);
   }else{
     circle.loudnessCounter += 1;
   }
@@ -83,7 +82,9 @@ const valence = (circle) => {
 }
 
 const tempo = (circle) => {
+  if(circle.id !== randCircle.id){
   circle.tempo = tempoScale(randCircle.data.tempo)
+  }
 }
 
 ///////////////////////////////////////////////////
@@ -112,11 +113,13 @@ const colorScale = d3.scaleLinear()
   .range([d3.rgb("#116f32"), d3.rgb('#77d598')])
 const loudnessScale = d3.scaleLinear()
   .domain([-11,0])
-  .range([1.01,1.4]);
+  .range([1.1,1.5]);
 const tempoScale = d3.scaleLinear()
   .domain([60, 200])
-  .range([1,0.01])
-
+  .range([2,1]);
+const danceabilityScale = d3.scaleLinear()
+  .domain([0,1])
+  .range([10,80]);
 for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
   let r = ((width-offset) / 2) * Math.sqrt(Math.random());
@@ -138,7 +141,9 @@ for (let i = 0; i < songs.length; i++) {
     staticVelocity,
     data: songs[i],
     tempo:1,
-    loudnessCounter: 0
+    loudnessCounter: 0,
+    danceabilityCounter: 0,
+    danceabilityBool: false
   }
 
   circlesData.push(circle);
@@ -166,10 +171,9 @@ let circleAttributes = circles
   .attr("cx", function (d) { return d.x; })
   .attr("cy", function (d) { return d.y; })
   .attr("r", function (d) { return d.r; })
+  .attr("distance", function(d) { return d.distance})
   .style("fill", function(d){return d.color})
-  .style("transition", function(d){
-    console.log('r '+ d.tempo + 's , fill 1s ease-out')
-    return 'r '+ d.tempo + 's , fill 1s ease-out'});
+  .style("transition", function(d){return d.tempo});
     
 
 let selector = svg
@@ -199,7 +203,7 @@ function update() {
       valence(d);
       loudness(d);
       tempo(d);
-
+      danceability(d);
       // go to center
       if (d.id === randCircle.id && d.distance >= 10) d.distance -= d.distance / 50;
       // pulse
@@ -213,8 +217,8 @@ function update() {
         
           if (pulseDone && d.distance !== d.oldDist) {
             // moving back to the position
-            if (!isSpreaded) pulseIn(d, (d.distance - d.oldDist) / pulseCollapsFactor);
-          } else {
+            if ( !isSpreaded) pulseIn(d, (d.distance - d.oldDist) / pulseCollapsFactor);
+          } else{
             // moving from the center
             pulseOut(d, d.distance / pulseExpandFactor)
           }
@@ -229,11 +233,12 @@ function update() {
       return d.x;
     })
     .attr("cy", function (d) {
-      d.y = height / 2 + Math.sin(d.radians) * d.distance;
+        d.y = height / 2 + Math.sin(d.radians) * d.distance;
       return d.y;
     })
     .attr('r', d => d.r)
-    .style('fill', d => d.color);
+    .style('fill', d => d.color)
+    .style('transition', d=> 'r '+ d.tempo + 's,fill 1s ease-out');
 
   selectorLine
     .attr("x1", randCircle.x + (randCircle.r + 10) * Math.cos(0))

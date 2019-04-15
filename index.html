@@ -50,15 +50,52 @@
     <!-- tutorial slide panel-->
     <div id="tutorial-panel">
         <div class="content">
-          <h2>About</h2>
-          <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-          <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
-          <p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen.</p>
-          <p>She packed her seven versalia, put her initial into the belt and made herself on the way.</p>
+            <div col-sm-12 ><h1>INTRODUCTION</h1>
+              <p></p>
+            </div >
+          <div col-sm-6 class="squareDiv"><h2>Danceability</h2>
+            <p>	Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.</p>
+          </div >
+          <div col-sm-6 class="squareDiv"><h2>Loudness</h2>
+            <p>Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). 
+              We visualize loudness by increasing and decreasing the size of a circle. </p>
+            <div style='float: left; margin-right: 200px; margin-left: 200px'>
+              <img src="gifs/loudness1.gif" alt="Low Loudness" title="Low Loudness"/>
+              <p>Low loudness</p>
+            </div>
+            <div style="overflow:hidden">
+            <img src="gifs/loudness2.gif" alt="High loudness" title="High loudness"/>
+              <p>High loudness</p>
+          </div>
+          </div>
+          <div col-sm-6 class="squareDiv"><h2>Valence</h2>
+            <p>Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry). 
+              We visualize valence by changing the color of a circle.</p>
+            
+            <div style='float: left; margin-right: 200px; margin-left: 200px'>
+            <img src="gifs/valence1.gif" alt="Happy valence" title="Happy valence"/>
+            <p>Happy Song</p>
+            </div>
+            <div style="overflow:hidden">
+            <img src="gifs/valence2.gif" alt="Gloomy valence" title="Gloomy valence"/>
+            <p>Gloomy Song</p>
+            </div>
+          </div>
+          <div col-sm-6 class="squareDiv"><h2>Tempo</h2>
+            <p>In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
+              We visualize tempo by changing the speed in which the circle increases or decreases the size of a circle.</p>
+            <div style='float: left; margin-right: 200px; margin-left: 200px'>
+            <img src="gifs/tempo1.gif" alt="Slow tempo" title="Slow tempo"/>
+            <p>Slow Tempo</p>
+            </div>
+            <div style="overflow:hidden">
+            <img src="gifs/tempo2.gif" alt="Fast tempo" title="Fast tempo"/>
+            <p>Fast Tempo</p>
+            </div>
+          </div>
         </div>
         <button id="back-btn" class="btn back-btn"> <i class="fas fa-arrow-left"></i> </button>
-      </div>
-     
+      </div>  
   </div>  
   
   <style>
@@ -98,7 +135,16 @@
       margin: 0;
       background: #121212;
     }
-
+    img{
+      width: 90px;
+      height: 74px;  
+    }
+    h2{
+      color: gray
+    }
+    .squareDiv p{
+      color: gray
+    }
     .container {
       position: relative;
       width: 100vw;
@@ -206,7 +252,7 @@
 
     #tutorial-panel{
       animation: 1s ease-out 0s 1 slideInFromLeft;
-      background: #1a1919;
+      background: #121212;
       height: 100%;
       width: 100%;
       position: fixed
@@ -240,6 +286,18 @@
       background: #1DB954;
       transform: scale(1.1) ;
     }
+
+    .squareDiv{
+      width:48%; 
+      height:200px; 
+      margin:4px;
+      margin-bottom: 100px;
+      float: left
+      
+    }
+
+
+
     #control-panel {
       position: absolute;
       bottom: 50px;
@@ -319,6 +377,7 @@
                                   supported by Chrome and Opera */
 }
     
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.1/d3.min.js"></script>
   <script src="./data/top2018.js"></script>
