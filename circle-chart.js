@@ -58,7 +58,7 @@ const danceability = (circle) => {
 
 const loudness = (circle) => {
   if (circle.loudnessCounter == 0) {
-    circle.r = circle.r * loudnessScale(randCircle.data.loudness);
+    circle.r = circle.r * 1.5//loudnessScale(randCircle.data.loudness);
     circle.loudnessCounter = circle.loudnessCounter + 1;
   } else if (circle.loudnessCounter == 45) {
     circle.r = circle.oldRad;
@@ -104,7 +104,7 @@ const colorScale = d3.scaleLinear()
   .range([d3.rgb("#116f32"), d3.rgb('#77d598')])
 const loudnessScale = d3.scaleLinear()
   .domain([-11, 0])
-  .range([1.1, 1.5]);
+  .range([1.1, 1.7]);
 const tempoScale = d3.scaleLinear()
   .domain([60, 200])
   .range([2, 1]);
@@ -127,7 +127,7 @@ for (let i = 0; i < songs.length; i++) {
     distance: (minDistance),  //(Math.floor(Math.random() * (i * 1.0)) + minDistance)
     oldDist: (minDistance),
     radians: Math.random() * Math.PI * 2,
-    oldRad: cRadius / 1.5,
+    oldRad: 7,//cRadius / 1.5,
     velocity: staticVelocity,
     staticVelocity,
     data: songs[i],
