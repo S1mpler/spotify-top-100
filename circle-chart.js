@@ -9,11 +9,6 @@ const tutorialBtn = document.getElementById('tutorial-btn');
 
 mainBg.style.fontSize = window.outerWidth / 8.3 + 'px';
 
-// window.onresize = (e) => {
-//   mainBg.style.fontSize = window.outerWidth / 8.3 + 'px';
-// };
-
-
 ///////////////////////////////////////////////////
 //  Methods
 ///////////////////////////////////////////////////
@@ -56,12 +51,15 @@ const generatePropertyElement = (prop, score) =>
 ///////////////////////////////////////////////////  
 
 const danceability = (circle) => {
-
-
+  if (circle.id !== randCircle.id)
+    
+    circle.distance = minDistance * Math.cos(3 * circle.radians);
+    // else
+      // circle.distance = minDistance * Math.sin(6 * circle.radians);
 }
 
 const loudness = (circle) => {
-  if(circle.id !== randCircle.id){
+  // if(circle.id !== randCircle.id){
   if(circle.loudnessCounter == 0){
     circle.r = circle.r * loudnessScale(randCircle.data.loudness);
     circle.loudnessCounter = circle.loudnessCounter + 1;
@@ -73,7 +71,7 @@ const loudness = (circle) => {
   }else{
     circle.loudnessCounter += 1;
   }
-}
+// }
 }
 
 const valence = (circle) => {
@@ -82,9 +80,9 @@ const valence = (circle) => {
 }
 
 const tempo = (circle) => {
-  if(circle.id !== randCircle.id){
-  circle.tempo = tempoScale(randCircle.data.tempo)
-  }
+  // if(circle.id !== randCircle.id){
+    circle.tempo = tempoScale(randCircle.data.tempo)
+  // }
 }
 
 ///////////////////////////////////////////////////
@@ -120,11 +118,11 @@ const tempoScale = d3.scaleLinear()
 const danceabilityScale = d3.scaleLinear()
   .domain([0,1])
   .range([10,80]);
-for (let i = 0; i < songs.length; i++) {
+for (let i = 0; i < songs.length / 2; i++) {
   let a = Math.random() * 2 * Math.PI;
   let r = ((width-offset) / 2) * Math.sqrt(Math.random());
   let cRadius =(Math.random() * 10) + 5;
-  let staticVelocity = ((Math.random() * 0.014) + 0.016) * 2;
+  let staticVelocity = ((Math.random() * 0.014) + 0.016) * 1.5;
 
   const circle = {
     id: songs[i].id,
@@ -196,8 +194,9 @@ update();
 
 
 d3.interval(update, 9);
-function update() {
 
+
+function update() {
   circleAttributes
     .each(function(d) {
       valence(d);
@@ -209,20 +208,17 @@ function update() {
       // pulse
       if (d.distance >= pulseDistanceLimit) pulseDone = true;
       if (d.id !== randCircle.id) {
-
         if (isSpreaded && !pulseDone) {
           d.velocity -= d.velocity / 90;
           // pulseOut(d, d.distance / pulseExpandFactor)
         } 
-        
-          if (pulseDone && d.distance !== d.oldDist) {
-            // moving back to the position
-            if ( !isSpreaded) pulseIn(d, (d.distance - d.oldDist) / pulseCollapsFactor);
-          } else{
-            // moving from the center
-            pulseOut(d, d.distance / pulseExpandFactor)
-          }
-        
+        // if (pulseDone && d.distance !== d.oldDist) {
+        //   // moving back to the position
+        //   if ( !isSpreaded) pulseIn(d, (d.distance - d.oldDist) / pulseCollapsFactor);
+        // } else{
+        //   // moving from the center
+        //   pulseOut(d, d.distance / pulseExpandFactor)
+        // }
       }
       // go from center
       d.radians += d.velocity;
@@ -236,18 +232,20 @@ function update() {
         d.y = height / 2 + Math.sin(d.radians) * d.distance;
       return d.y;
     })
-    .attr('r', d => d.r)
+    .attr('distance', d => Math.cos(5 * d.radians))
     .style('fill', d => d.color)
     .style('transition', d=> 'r '+ d.tempo + 's,fill 1s ease-out');
 
   selectorLine
     .attr("x1", randCircle.x + (randCircle.r + 10) * Math.cos(0))
     .attr("y1", randCircle.y + (randCircle.r + 10) * Math.sin(0))
+    .style('transition', 'x1 y1 ' + randCircle.tempo + 's');
 
   selector
     .attr("cx", randCircle.x)
     .attr("cy", randCircle.y)
-    .attr("r", randCircle.r + 10);
+    .attr("r", randCircle.r + 10)
+    .style('transition', 'r ' + randCircle.tempo + 's');
 }
 
 pickBtn.addEventListener('click', (e) => {
@@ -258,12 +256,13 @@ pulseBtn.addEventListener('click', (e) => {
   toggleSpread();
 })
 
-backBtn.addEventListener('click', (e) => {
-  tutorialPanel.style.animation = '1s ease-out 0s 1 slideOutFromRight';
-  setTimeout(function(){
-    tutorialPanel.style.visibility = 'hidden'
-  }, 800);
-})
+// backBtn.addEventListener('click', (e) => {
+//   tutorialPanel.style.animation = '1s ease-out 0s 1 slideOutFromRight';
+//   setTimeout(function(){
+//     tutorialPanel.style.visibility = 'hidden'
+//   }, 800);
+// })
+
 tutorialBtn.addEventListener('click', (e) => {
   tutorialPanel.style.visibility = 'visible'
   tutorialPanel.style.animation = '1s ease-out 0s 1 slideInFromLeft';
