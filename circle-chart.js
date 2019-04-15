@@ -250,12 +250,12 @@ pulseBtn.addEventListener('click', (e) => {
   toggleSpread();
 })
 
-// backBtn.addEventListener('click', (e) => {
-//   tutorialPanel.style.animation = '1s ease-out 0s 1 slideOutFromRight';
-//   setTimeout(function(){
-//     tutorialPanel.style.visibility = 'hidden'
-//   }, 800);
-// })
+backBtn.addEventListener('click', (e) => {
+  tutorialPanel.style.animation = '1s ease-out 0s 1 slideOutFromRight';
+  setTimeout(function(){
+    tutorialPanel.style.visibility = 'hidden'
+  }, 800);
+})
 
 tutorialBtn.addEventListener('click', (e) => {
   tutorialPanel.style.visibility = 'visible'
