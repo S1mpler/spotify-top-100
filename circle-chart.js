@@ -251,15 +251,15 @@ pulseBtn.addEventListener('click', (e) => {
 })
 
 backBtn.addEventListener('click', (e) => {
-  tutorialPanel.style.animation = '1s ease-out 0s 1 slideOutFromRight';
+  tutorialPanel.style.animation = '.3s ease-out 0s 1 slideOutFromRight';
   setTimeout(function(){
     tutorialPanel.style.visibility = 'hidden'
-  }, 800);
+  }, 150);
 })
 
 tutorialBtn.addEventListener('click', (e) => {
   tutorialPanel.style.visibility = 'visible'
-  tutorialPanel.style.animation = '1s ease-out 0s 1 slideInFromLeft';
+  tutorialPanel.style.animation = '.3s ease-out 0s 1 slideInFromLeft';
 })
 document.body.onkeyup = function (e) {
   if (e.keyCode == 32) {

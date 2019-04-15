@@ -55,11 +55,19 @@
             </div >
           <div col-sm-6 class="squareDiv"><h2>Danceability</h2>
             <p>	Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.</p>
+            <div style='float: left; margin-right: 40px;'>
+              <img src="gifs/Danceability1.gif" alt="Low Loudness" title="Low Loudness"/>
+              <p>Low loudness</p>
+            </div>
+            <div style="overflow:hidden">
+            <img src="gifs/Danceability2.gif" alt="High loudness" title="High loudness"/>
+              <p>High loudness</p>
+          </div>
           </div >
           <div col-sm-6 class="squareDiv"><h2>Loudness</h2>
             <p>Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). 
               We visualize loudness by increasing and decreasing the size of a circle. </p>
-            <div style='float: left; margin-right: 200px; margin-left: 200px'>
+            <div style='float: left; margin-right: 40px;'>
               <img src="gifs/loudness1.gif" alt="Low Loudness" title="Low Loudness"/>
               <p>Low loudness</p>
             </div>
@@ -72,7 +80,7 @@
             <p>Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry). 
               We visualize valence by changing the color of a circle.</p>
             
-            <div style='float: left; margin-right: 200px; margin-left: 200px'>
+            <div style='float: left; margin-right: 40px;'>
             <img src="gifs/valence1.gif" alt="Happy valence" title="Happy valence"/>
             <p>Happy Song</p>
             </div>
@@ -84,7 +92,7 @@
           <div col-sm-6 class="squareDiv"><h2>Tempo</h2>
             <p>In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
               We visualize tempo by changing the speed in which the circle increases or decreases the size of a circle.</p>
-            <div style='float: left; margin-right: 200px; margin-left: 200px'>
+            <div style='float: left; margin-right: 40px;'>
             <img src="gifs/tempo1.gif" alt="Slow tempo" title="Slow tempo"/>
             <p>Slow Tempo</p>
             </div>
@@ -224,6 +232,11 @@
       font-size: 16px;
     }
 
+    .center{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
     .song-prop .progress{ 
       position: absolute;
       left: 0;
@@ -254,8 +267,10 @@
       animation: 1s ease-out 0s 1 slideInFromLeft;
       background: #121212;
       height: 100%;
-      width: 100%;
-      position: fixed
+      width: 35%;
+      border-right-color: gray;
+      border-right: 1px solid;
+      position: fixed;
     }
     #tutorial-panel .back-btn{
       position: absolute;
