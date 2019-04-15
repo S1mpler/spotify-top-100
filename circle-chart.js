@@ -51,10 +51,10 @@ const generatePropertyElement = (prop, score) =>
 ///////////////////////////////////////////////////  
 
 const danceability = (circle) => {
-  if (circle.id !== randCircle.id)
-    
-    circle.distance = 200+(50 * Math.cos(5 * circle.radians));
-    circle.velocity = 0.0100;
+    if(circle.id === randCircle.id) return;
+    console.log(danceabilityScale(randCircle.data.danceability))
+    circle.distance += (50 * Math.cos(danceabilityScale(randCircle.data.danceability) * circle.radians)) / 10;
+    circle.velocity = 0.009;
     // else
       // circle.distance = minDistance * Math.sin(6 * circle.radians);
 }
@@ -116,10 +116,10 @@ const loudnessScale = d3.scaleLinear()
 const tempoScale = d3.scaleLinear()
   .domain([60, 200])
   .range([2,1]);
-const danceabilityScale = d3.scaleLinear()
+const danceabilityScale = d3.scaleQuantize()
   .domain([0,1])
-  .range([10,80]);
-for (let i = 0; i < songs.length / 2; i++) {
+  .range([1,2,3,4, 5, 6, 7]);
+for (let i = 0; i < songs.length; i++) {
   let a = Math.random() * 2 * Math.PI;
   let r = ((width-offset) / 2) * Math.sqrt(Math.random());
   let cRadius =(Math.random() * 10) + 5;
@@ -235,7 +235,7 @@ function update() {
     })
     .attr('distance', d => Math.cos(5 * d.radians))
     .style('fill', d => d.color)
-    .style('transition', d=> 'r '+ d.tempo + 's,fill 1s ease-out');
+    .style('transition', d=> 'r '+ d.tempo + 's,fill 1s ease-out, distance 2s ease');
 
   selectorLine
     .attr("x1", randCircle.x + (randCircle.r + 10) * Math.cos(0))
