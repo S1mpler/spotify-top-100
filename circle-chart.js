@@ -50,6 +50,14 @@ const generatePropertyElement = (prop, score) =>
 //  Behaviours
 ///////////////////////////////////////////////////  
 
+// TODOs: 
+// 1. morphing to cirle -> morphing to the new form
+// 2. filtering
+// 3. pulse & spread 
+// 4. pick a song in the spread mode.
+// 5. check the stylings
+// 6. help with documentation
+// 7. introduction page
 const danceability = (circle) => {
   if (circle.id === randCircle.id) return;
   console.log(danceabilityScale(randCircle.data.danceability))
@@ -127,7 +135,7 @@ for (let i = 0; i < songs.length; i++) {
     distance: (minDistance),  //(Math.floor(Math.random() * (i * 1.0)) + minDistance)
     oldDist: (minDistance),
     radians: Math.random() * Math.PI * 2,
-    oldRad: cRadius / 1.5,
+    oldRad: 7,
     velocity: staticVelocity,
     staticVelocity,
     data: songs[i],
@@ -285,6 +293,10 @@ function toggleSpread() {
 
 // TODO: should return a circle and not assign it, motherfucker
 function pickRandomCircle() {
+  if (randCircle && randCircle.id) circlesData.find(circle => 
+    circle.id == randCircle.id
+    ).distance = minDistance;
+
   if (selectedCircleIndex === circlesData.length - 1) {
     selectedCircleIndex = 0;
     circlesData = shuffle(circlesData);
