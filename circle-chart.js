@@ -53,7 +53,8 @@ const generatePropertyElement = (prop, score) =>
 const danceability = (circle) => {
   if (circle.id !== randCircle.id)
     
-    circle.distance = minDistance * Math.cos(3 * circle.radians);
+    circle.distance = 200+(50 * Math.cos(5 * circle.radians));
+    circle.velocity = 0.0100;
     // else
       // circle.distance = minDistance * Math.sin(6 * circle.radians);
 }
