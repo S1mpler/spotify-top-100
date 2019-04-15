@@ -48,23 +48,31 @@
     </div>
     <button id="tutorial-btn" class= "btn tutorial-btn"><i class="fas fa-info"></i></button>
     <!-- tutorial slide panel-->
-    <!-- <div id="tutorial-panel">
+    <div id="tutorial-panel">
         <div class="content">
             <div col-sm-12 ><h1>INTRODUCTION</h1>
               <p></p>
             </div >
           <div col-sm-6 class="squareDiv"><h2>Danceability</h2>
             <p>	Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.</p>
+            <div style='float: left; margin-right:60px;'>
+              <img src="resources/danceability-low.gif" alt="Low Loudness" title="Low Loudness"/>
+              <p>Low Danceability</p>
+            </div>
+            <div style="overflow:hidden">
+            <img src="resources/danceability-high.gif" alt="High loudness" title="High loudness"/>
+              <p>High Danceability</p>
+          </div>
           </div >
           <div col-sm-6 class="squareDiv"><h2>Loudness</h2>
             <p>Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). 
               We visualize loudness by increasing and decreasing the size of a circle. </p>
-            <div style='float: left; margin-right: 200px; margin-left: 200px'>
-              <img src="gifs/loudness1.gif" alt="Low Loudness" title="Low Loudness"/>
+            <div style='float: left; margin-right: 60px;'>
+              <img src="resources/low-loudness.PNG" alt="Low Loudness" title="Low Loudness"/>
               <p>Low loudness</p>
             </div>
             <div style="overflow:hidden">
-            <img src="gifs/loudness2.gif" alt="High loudness" title="High loudness"/>
+            <img src="resources/high-loudness.PNG" alt="High loudness" title="High loudness"/>
               <p>High loudness</p>
           </div>
           </div>
@@ -72,30 +80,30 @@
             <p>Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry). 
               We visualize valence by changing the color of a circle.</p>
             
-            <div style='float: left; margin-right: 200px; margin-left: 200px'>
-            <img src="gifs/valence1.gif" alt="Happy valence" title="Happy valence"/>
+            <div style='float: left; margin-right: 60px;'>
+            <img src="resources/happy-song.PNG" alt="Happy valence" title="Happy valence"/>
             <p>Happy Song</p>
             </div>
             <div style="overflow:hidden">
-            <img src="gifs/valence2.gif" alt="Gloomy valence" title="Gloomy valence"/>
+            <img src="resources/gloomy-song.PNG" alt="Gloomy valence" title="Gloomy valence"/>
             <p>Gloomy Song</p>
             </div>
           </div>
           <div col-sm-6 class="squareDiv"><h2>Tempo</h2>
             <p>In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
               We visualize tempo by changing the speed in which the circle increases or decreases the size of a circle.</p>
-            <div style='float: left; margin-right: 200px; margin-left: 200px'>
-            <img src="gifs/tempo1.gif" alt="Slow tempo" title="Slow tempo"/>
+            <div style='float: left; margin-right: 60px;'>
+            <img src="resources/tempo-low.gif" alt="Slow tempo" title="Slow tempo"/>
             <p>Slow Tempo</p>
             </div>
             <div style="overflow:hidden">
-            <img src="gifs/tempo2.gif" alt="Fast tempo" title="Fast tempo"/>
+            <img src="resources/tempo-high.gif" alt="Fast tempo" title="Fast tempo"/>
             <p>Fast Tempo</p>
             </div>
           </div>
         </div>
         <button id="back-btn" class="btn back-btn"> <i class="fas fa-arrow-left"></i> </button>
-      </div>   -->
+      </div>  
   </div>  
   
   <style>
@@ -224,6 +232,11 @@
       font-size: 16px;
     }
 
+    .center{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
     .song-prop .progress{ 
       position: absolute;
       left: 0;
@@ -254,16 +267,18 @@
       animation: 1s ease-out 0s 1 slideInFromLeft;
       background: #121212;
       height: 100%;
-      width: 100%;
-      position: fixed
+      width: 35%;
+      border-right-color: gray;
+      border-right: 1px solid;
+      position: fixed;
     }
     #tutorial-panel .back-btn{
       position: absolute;
       right:    0;
-      bottom:   0;
+      top:   0;
       width: 50px;
       height: 50px;
-      margin-bottom: 50px;
+      margin-top: 50px;
       margin-right: 50px;
       background: #1DB954;
     }
@@ -291,7 +306,7 @@
       width:48%; 
       height:200px; 
       margin:4px;
-      margin-bottom: 100px;
+      margin-bottom: 200px;
       float: left
       
     }

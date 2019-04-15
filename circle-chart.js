@@ -66,7 +66,7 @@ const danceability = (circle) => {
 
 const loudness = (circle) => {
   if (circle.loudnessCounter == 0) {
-    circle.r = circle.r * loudnessScale(randCircle.data.loudness);
+    circle.r = circle.r * 1.5//loudnessScale(randCircle.data.loudness);
     circle.loudnessCounter = circle.loudnessCounter + 1;
   } else if (circle.loudnessCounter == 45) {
     circle.r = circle.oldRad;
@@ -112,7 +112,7 @@ const colorScale = d3.scaleLinear()
   .range([d3.rgb("#116f32"), d3.rgb('#77d598')])
 const loudnessScale = d3.scaleLinear()
   .domain([-11, 0])
-  .range([1.1, 1.5]);
+  .range([1.1, 1.7]);
 const tempoScale = d3.scaleLinear()
   .domain([60, 200])
   .range([2, 1]);
@@ -258,16 +258,16 @@ pulseBtn.addEventListener('click', (e) => {
   toggleSpread();
 })
 
-// backBtn.addEventListener('click', (e) => {
-//   tutorialPanel.style.animation = '1s ease-out 0s 1 slideOutFromRight';
-//   setTimeout(function(){
-//     tutorialPanel.style.visibility = 'hidden'
-//   }, 800);
-// })
+backBtn.addEventListener('click', (e) => {
+  tutorialPanel.style.animation = '.3s ease-out 0s 1 slideOutFromRight';
+  setTimeout(function(){
+    tutorialPanel.style.visibility = 'hidden'
+  }, 150);
+})
 
 tutorialBtn.addEventListener('click', (e) => {
   tutorialPanel.style.visibility = 'visible'
-  tutorialPanel.style.animation = '1s ease-out 0s 1 slideInFromLeft';
+  tutorialPanel.style.animation = '.3s ease-out 0s 1 slideInFromLeft';
 })
 document.body.onkeyup = function (e) {
   if (e.keyCode == 32) {
