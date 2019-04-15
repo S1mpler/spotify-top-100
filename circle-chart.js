@@ -51,11 +51,11 @@ const generatePropertyElement = (prop, score) =>
 ///////////////////////////////////////////////////  
 
 // TODOs: 
-// 1. morphing to cirle -> morphing to the new form
-// 2. filtering
-// 3. pulse & spread 
+// 1. morphing to cirle -> morphing to the new form +
+// 2. filtering 
+// 3. pulse & spread +
 // 4. pick a song in the spread mode.
-// 5. check the stylings
+// 5. check the stylings 
 // 6. help with documentation
 // 7. introduction page
 const danceability = (circle) => {
@@ -133,7 +133,7 @@ for (let i = 0; i < songs.length; i++) {
     color: '#1DB954',
     opacity: 0.0,
     distance: (minDistance),  //(Math.floor(Math.random() * (i * 1.0)) + minDistance)
-    oldDist: (minDistance),
+    oldDist: ((Math.floor(Math.random() * (i * 0.9)) + minDistance)),
     radians: Math.random() * Math.PI * 2,
     oldRad: 7,
     velocity: staticVelocity,
@@ -184,12 +184,12 @@ let selector = svg
   .style("stroke", 'white')
   .style("fill-opacity", 0);
 
-let selectorLine = svg
-  .append('line')
-  .attr("x2", width)
-  .attr("y2", height / 2)
-  .style("stroke-width", 1)
-  .style("stroke", 'white');
+// let selectorLine = svg
+//   .append('line')
+//   .attr("x2", width)
+//   .attr("y2", height / 2)
+//   .style("stroke-width", 1)
+//   .style("stroke", 'white');
 
 update();
 
@@ -211,15 +211,15 @@ function update() {
       if (d.id !== randCircle.id) {
         if (isSpreaded && !pulseDone) {
           d.velocity -= d.velocity / 90;
-          // pulseOut(d, d.distance / pulseExpandFactor)
+          pulseOut(d, d.distance / pulseExpandFactor)
         }
-        // if (pulseDone && d.distance !== d.oldDist) {
-        //   // moving back to the position
-        //   if ( !isSpreaded) pulseIn(d, (d.distance - d.oldDist) / pulseCollapsFactor);
-        // } else{
-        //   // moving from the center
-        //   pulseOut(d, d.distance / pulseExpandFactor)
-        // }
+        if (pulseDone && d.distance !== d.oldDist) {
+          // moving back to the position
+          if ( !isSpreaded) pulseIn(d, (d.distance - d.oldDist) / pulseCollapsFactor);
+        } else{
+          // moving from the center
+          pulseOut(d, d.distance / pulseExpandFactor)
+        }
       }
       // go from center
       d.radians += d.velocity;
@@ -238,16 +238,16 @@ function update() {
     .style('fill', d => d.color)
     .style('transition', d=> 'r '+ d.tempo + 's, fill 1s ease-out');
 
-  selectorLine
-    .attr("x1", randCircle.x + (randCircle.r + 10) * Math.cos(0))
-    .attr("y1", randCircle.y + (randCircle.r + 10) * Math.sin(0))
-    .style('transition', 'x1 y1 ' + randCircle.tempo + 's');
-
   selector
     .attr("cx", randCircle.x)
     .attr("cy", randCircle.y)
     .attr("r", randCircle.r + 10)
     .style('transition', 'r ' + randCircle.tempo + 's');
+
+  // selectorLine
+  //   .attr("x1", randCircle.x + (randCircle.r + 10 + loudnessScale(randCircle.loudness)) * Math.cos(0))
+  //   .attr("y1", randCircle.y + (randCircle.r + 10 + loudnessScale(randCircle.loudness)) * Math.sin(0))
+    // .style('transition', 'x1 y1 ' + randCircle.tempo + 's ease');
 }
 
 pickBtn.addEventListener('click', (e) => {
@@ -293,10 +293,6 @@ function toggleSpread() {
 
 // TODO: should return a circle and not assign it, motherfucker
 function pickRandomCircle() {
-  if (randCircle && randCircle.id) circlesData.find(circle => 
-    circle.id == randCircle.id
-    ).distance = minDistance;
-
   if (selectedCircleIndex === circlesData.length - 1) {
     selectedCircleIndex = 0;
     circlesData = shuffle(circlesData);
