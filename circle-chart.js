@@ -58,7 +58,7 @@ const danceability = (circle) => {
 
 const loudness = (circle) => {
   if (circle.loudnessCounter == 0) {
-    circle.r = circle.r * 10//loudnessScale(randCircle.data.loudness);
+    circle.r = circle.r * loudnessScale(randCircle.data.loudness);
     circle.loudnessCounter = circle.loudnessCounter + 1;
   } else if (circle.loudnessCounter == 45) {
     circle.r = circle.oldRad;
@@ -226,9 +226,9 @@ function update() {
       return d.y;
     })
     .attr('distance', d => Math.cos(5 * d.radians))
+    .attr('r' , d => d.r)
     .style('fill', d => d.color)
-    .style('transition', d => 'r ' + d.tempo + 's');
-  // .style('transition', d=> 'r '+ d.tempo + 's, fill 1s ease-out');
+    .style('transition', d=> 'r '+ d.tempo + 's, fill 1s ease-out');
 
   selectorLine
     .attr("x1", randCircle.x + (randCircle.r + 10) * Math.cos(0))
