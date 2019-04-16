@@ -10,37 +10,36 @@
 <body>
   <div class="container">
     <div id="main-bg" class="bg noselect">
-      <!-- Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span>
-      Spotify <span>Spotify</span> -->
       
       <span>Spotify the top</span> hundred <span>songs</span> <br><span>of</span>
       two thousand eighteen
-      <!-- Spotify the top <span>hundred songs <br>of
-      two thousand</span> eighteen -->
+      
     </div>
-    <!-- <div class="bg2 noselect">
-      2018
-    </div> -->
+    
     <!-- chart -->
     <div class="chart"></div>
     <!-- info containers -->
     <div class="text" id="song-name"></div>
     <div class="text" id="song-data"></div>
     <!-- filters -->
-    <!-- <div class="filters">
-      <input type="range" class="filter">
-      <input type="range" class="filter">
-      <input type="range" class="filter">
-      <input type="range" class="filter">
-    </div> -->
+    <div class="filters">
+      <div class="filter">
+          <div class="input-label">danceability</div>
+          <input id="dance-range" type="range" class="filter" value="0">
+      </div>
+      <div class="filter">
+          <div class="input-label">loudness</div>
+          <input id="loud-range" type="range" class="filter" value="0">
+      </div>
+      <div class="filter">
+          <div class="input-label">valence</div>
+          <input id="val-range" type="range" class="filter" value="0">
+      </div>
+      <div class="filter">
+          <div class="input-label">tempo</div>
+          <input id="tempo-range" type="range" class="filter" value="0">
+      </div>
+    </div>
     <!-- button -->
     <div id="control-panel">
         <button id="pulse-btn" class="btn control-btn">SPREAD</button>
@@ -264,6 +263,7 @@
     }
 
     #tutorial-panel{
+      z-index: 10;
       animation: 1s ease-out 0s 1 slideInFromLeft;
       background: #121212;
       height: 100%;
@@ -373,14 +373,16 @@
 
     .filters {
       list-style: none;
-      width: 300px;
+      width: 200px;
       position: absolute;
-      bottom: 0;
-      left: 0;
+      bottom: 50px;
+      left: 50px;
     }
 
     .filter {
       width: 100%;
+      /* margin: 20px 0; */
+      position: relative;
     }
 
     .noselect {
@@ -392,7 +394,97 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
-    
+
+
+.filter .input-label {
+  z-index: 8;
+  position: absolute;
+  text-align: center;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'AvenirNextLTW01RegularRegular';
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+
+input[type=range] {
+  z-index: 1;
+  -webkit-appearance: none;
+  margin: 18px 0;
+  width: 100%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+  animation: 0.2s;
+  background: #222;
+  /* border: 1px solid #1DB954; */
+}
+input[type=range]::-webkit-slider-thumb {
+  z-index: 9;
+  height: 48px;
+  width: 1px;
+  background: #1DB954;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -0px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #333;
+}
+/* input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animation: 0.2s;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+} */
+
+/* input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animation: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+} */
+input[type=range]::-ms-fill-lower {
+  background: red;
+  border: 0.2px solid red;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+  background: blue;
+  border: 0.2px solid #010101;
+  border-radius: 50%;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+/* input[type=range]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #367ebd;
+} */
+
+
+
+
 
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.1/d3.min.js"></script>
