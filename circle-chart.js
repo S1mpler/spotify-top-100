@@ -328,6 +328,7 @@ function toggleSpread() {
 }
 
 function pickRandomCircle() {
+  filteredSongs = [...new Set(filteredSongs)];
   let array = filteredSongs.length > 0 ? filteredSongs : circlesData;
 
   if (spreadMode) toggleSpread();
