@@ -56,7 +56,7 @@ const pulseIn = (circle, pulseSpeed) => {
 const generatePropertyElement = (prop, score) =>
   `<div class="song-prop">
     ${prop}
-    <div class="progress" style="width:${score * 100}%"></div>
+    <div class="progress" style="width:${score}%"></div>
   </div>`;
 
 
@@ -346,10 +346,10 @@ function dispaySongData(data) {
   if (!data) return;
   songNameDiv.innerText = `${data.artists} - ${data.name}`;
   songDataDiv.innerHTML = `
-    ${generatePropertyElement('danceability', data.danceability)}
-    ${generatePropertyElement('loudness', data.loudness)}
-    ${generatePropertyElement('valence', data.valence)}
-    ${generatePropertyElement('tempo', data.tempo)}
+    ${generatePropertyElement('danceability', danceabilityScoreScale(data.danceability))}
+    ${generatePropertyElement('loudness', loudnessScoreScale(data.loudness))}
+    ${generatePropertyElement('valence', valenceScoreScale(data.valence))}
+    ${generatePropertyElement('tempo', tempoScoreScale(data.tempo))}
   `;
 }
 
